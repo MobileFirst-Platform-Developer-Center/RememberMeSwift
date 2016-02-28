@@ -11,7 +11,7 @@
 		E27AAA1C1C75E5D500B37011 /* RememberMeChallengeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27AAA1B1C75E5D500B37011 /* RememberMeChallengeHandler.swift */; };
 		E2959F221C79E0B2003FAA68 /* mfpclient.plist in Resources */ = {isa = PBXBuildFile; fileRef = E2959F211C79E0B2003FAA68 /* mfpclient.plist */; };
 		E2F69B141C75D39C00F8BC04 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69B131C75D39C00F8BC04 /* AppDelegate.swift */; };
-		E2F69B161C75D39C00F8BC04 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69B151C75D39C00F8BC04 /* ViewController.swift */; };
+		E2F69B161C75D39C00F8BC04 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2F69B151C75D39C00F8BC04 /* HomeViewController.swift */; };
 		E2F69B191C75D39C00F8BC04 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F69B171C75D39C00F8BC04 /* Main.storyboard */; };
 		E2F69B1B1C75D39C00F8BC04 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2F69B1A1C75D39C00F8BC04 /* Assets.xcassets */; };
 		E2F69B1E1C75D39C00F8BC04 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2F69B1C1C75D39C00F8BC04 /* LaunchScreen.storyboard */; };
@@ -26,7 +26,7 @@
 		E2959F211C79E0B2003FAA68 /* mfpclient.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mfpclient.plist; sourceTree = "<group>"; };
 		E2F69B101C75D39C00F8BC04 /* RememberMeSwift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RememberMeSwift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2F69B131C75D39C00F8BC04 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E2F69B151C75D39C00F8BC04 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E2F69B151C75D39C00F8BC04 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		E2F69B181C75D39C00F8BC04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E2F69B1A1C75D39C00F8BC04 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2F69B1D1C75D39C00F8BC04 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				E2F69B131C75D39C00F8BC04 /* AppDelegate.swift */,
-				E2F69B151C75D39C00F8BC04 /* ViewController.swift */,
+				E2F69B151C75D39C00F8BC04 /* HomeViewController.swift */,
 				E2F69B171C75D39C00F8BC04 /* Main.storyboard */,
 				E2F69B1A1C75D39C00F8BC04 /* Assets.xcassets */,
 				E2F69B1C1C75D39C00F8BC04 /* LaunchScreen.storyboard */,
@@ -226,7 +226,7 @@
 				E27AAA1C1C75E5D500B37011 /* RememberMeChallengeHandler.swift in Sources */,
 				E2F69B261C75D53900F8BC04 /* LoginViewController.swift in Sources */,
 				E2F69B281C75D56500F8BC04 /* ProtectedViewController.swift in Sources */,
-				E2F69B161C75D39C00F8BC04 /* ViewController.swift in Sources */,
+				E2F69B161C75D39C00F8BC04 /* HomeViewController.swift in Sources */,
 				E2F69B141C75D39C00F8BC04 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

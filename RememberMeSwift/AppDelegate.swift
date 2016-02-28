@@ -7,6 +7,14 @@
 //
 
 import UIKit
+import IBMMobileFirstPlatformFoundation
+
+let LoginRequiredNotificationKey = "com.sample.RememberMeSwift.LoginRequiredNotificationKey"
+let LoginSuccessNotificationKey = "com.sample.RememberMeSwift.LoginSuccessNotificationKey"
+let LoginFailureNotificationKey = "com.sample.RememberMeSwift.LoginFailureNotificationKey"
+let LoginNotificationKey = "com.sample.RememberMeSwift.LoginNotificationKey"
+let LogoutNotificationKey = "com.sample.RememberMeSwift.LogoutNotificationKey"
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

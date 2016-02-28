@@ -5,6 +5,30 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
+        <!--Home View Controller-->
+        <scene sceneID="J5k-QQ-a9d">
+            <objects>
+                <viewController id="ic1-Fy-Szh" customClass="HomeViewController" customModule="RememberMeSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="U99-LT-2cf"/>
+                        <viewControllerLayoutGuide type="bottom" id="M8v-iE-LWc"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QLu-qe-ePK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="RHE-rp-2Xd"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="ShowLoginScreenSegue" id="xK9-Qp-eCy"/>
+                        <segue destination="utC-Kl-EMN" kind="show" identifier="fromHomeToBalanceSegue" id="LSv-3q-f9t"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nBq-Qr-Aoh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1375" y="296"/>
+        </scene>
         <!--Remember me Swift-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -66,11 +90,63 @@
                         <outlet property="remainingAttempts" destination="0pa-cn-mSV" id="9WL-eE-7DM"/>
                         <outlet property="rememberMe" destination="t7b-oT-RgM" id="BYl-JK-WxS"/>
                         <outlet property="username" destination="wiS-OW-TGv" id="Z0x-O0-8H4"/>
+                        <segue destination="utC-Kl-EMN" kind="show" identifier="gotoBalancePageSegue" id="LUh-UZ-cxr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1458" y="296"/>
+            <point key="canvasLocation" x="1770" y="296"/>
+        </scene>
+        <!--Protected View Controller-->
+        <scene sceneID="pJX-OT-pxQ">
+            <objects>
+                <viewController id="utC-Kl-EMN" customClass="ProtectedViewController" customModule="RememberMeSwift" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Bj8-hv-unL"/>
+                        <viewControllerLayoutGuide type="bottom" id="Izm-Tr-jmg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gj1-Wu-ium">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Hello user" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="abe-LC-ZPI">
+                                <rect key="frame" x="20" y="89" width="280" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHt-lT-MdP">
+                                <rect key="frame" x="20" y="124" width="83" height="30"/>
+                                <state key="normal" title="Get Balance"/>
+                                <connections>
+                                    <action selector="getBalanceClicked:" destination="utC-Kl-EMN" eventType="touchUpInside" id="2Nd-MU-Sd0"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Balance Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XoW-7A-XsL">
+                                <rect key="frame" x="20" y="170" width="280" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ouo-PY-BJ8">
+                                <rect key="frame" x="215" y="124" width="85" height="30"/>
+                                <state key="normal" title="Logout"/>
+                                <connections>
+                                    <action selector="logoutClicked:" destination="utC-Kl-EMN" eventType="touchUpInside" id="MXp-eR-MVL"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="displayBalanceLabel" destination="XoW-7A-XsL" id="QNQ-em-jPx"/>
+                        <outlet property="helloUserLabel" destination="abe-LC-ZPI" id="5Bb-Xg-laC"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kMG-V1-1So" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2172" y="296"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="qxr-I7-mPg">
@@ -84,7 +160,7 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="x8s-av-7rl"/>
+                        <segue destination="ic1-Fy-Szh" kind="relationship" relationship="rootViewController" id="uVf-81-UcP"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ojz-z9-Seg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -92,4 +168,7 @@
             <point key="canvasLocation" x="969" y="296"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="LSv-3q-f9t"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -9,32 +9,67 @@
 import UIKit
 import IBMMobileFirstPlatformFoundation
 
-let loginNotificationKey = "com.sample.RememberMeSwift.loginNotificationKey"
-let showBalanceNotificationKey = "com.sample.RememberMeSwift.showBalanceNotificationKey"
-
 class LoginViewController: UIViewController {
-
+    var errorViaSegue: String!
+    var remainingAttemptsViaSegue: Int!
+    var displayName: String!
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var rememberMe: UISwitch!
     @IBOutlet weak var remainingAttempts: UILabel!
     @IBOutlet weak var error: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewWillAppear(animated: Bool) {
+        self.username.text = ""
+        self.password.text = ""
         rememberMe.on = false
+        if(self.remainingAttemptsViaSegue != nil) {
+            self.remainingAttempts.text = "Remaining Attempts: " + String(self.remainingAttemptsViaSegue)
+        }
+        if(self.errorViaSegue != nil) {
+            self.error.text = self.errorViaSegue
+        }
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLabels:", name: LoginRequiredNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "gotoBalancePage", name: LoginSuccessNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanFieldsAndLabels", name: LoginFailureNotificationKey, object: nil)
+    }
+    
+    override func viewDidLoad() {
+        NSLog("LoginViewController->viewDidLoad")
+        super.viewDidLoad()
+        self.navigationItem.hidesBackButton = true;
     }
     
     @IBAction func login(sender: UIButton) {
-        var strRememberMe: String!
-        if(rememberMe.on){
-            strRememberMe = "true"
-        }
-        else{
-            strRememberMe = "false"
-        }
+        NSLog("LoginViewController->login")
         if(self.username.text != "" && self.password.text != ""){
-            NSNotificationCenter.defaultCenter().postNotificationName(loginNotificationKey, object: nil, userInfo: ["username": username.text!, "password": password.text!, "rememberMe": strRememberMe])
+            NSNotificationCenter.defaultCenter().postNotificationName(LoginNotificationKey, object: nil, userInfo: ["username": username.text!, "password": password.text!, "rememberMe": rememberMe.on])
         }
+    }
+    
+    func updateLabels(notification:NSNotification){
+        NSLog("LoginViewController->updateLabels")
+        let userInfo = notification.userInfo as! Dictionary<String, AnyObject!>
+        let errMsg = userInfo["errorMsg"] as! String
+        let remainingAttempts = userInfo["remainingAttempts"] as! Int
+        self.error.text = errMsg
+        self.remainingAttempts.text = "Remaining Attempts: " + String(remainingAttempts)
+    }
+    
+    func gotoBalancePage(){
+        NSLog("LoginViewController->gotoBalancePage")
+        self.performSegueWithIdentifier("gotoBalancePageSegue", sender: nil)
+    }
+    
+    func cleanFieldsAndLabels(){
+        self.username.text = ""
+        self.password.text = ""
+        self.remainingAttempts.text = ""
+        self.error.text = ""
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSLog("LoginViewController->viewDidDisappear")
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 }
