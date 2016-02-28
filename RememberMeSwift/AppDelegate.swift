@@ -2,9 +2,6 @@
 //  AppDelegate.swift
 //  RememberMeSwift
 //
-//  Created by Shmulik Bardosh on 18/02/2016.
-//  Copyright © 2016 Shmulik Bardosh. All rights reserved.
-//
 
 import UIKit
 import IBMMobileFirstPlatformFoundation
@@ -15,7 +12,6 @@ let LoginFailureNotificationKey = "com.sample.RememberMeSwift.LoginFailureNotifi
 let LoginNotificationKey = "com.sample.RememberMeSwift.LoginNotificationKey"
 let LogoutNotificationKey = "com.sample.RememberMeSwift.LogoutNotificationKey"
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -23,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
         RememberMeChallengeHandler()
         return true
     }

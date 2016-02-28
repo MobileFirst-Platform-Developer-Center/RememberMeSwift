@@ -2,33 +2,35 @@
 //  ProtectedViewController.swift
 //  RememberMeSwift
 //
-//  Created by Shmulik Bardosh on 18/02/2016.
-//  Copyright © 2016 Shmulik Bardosh. All rights reserved.
-//
 
 import UIKit
 import IBMMobileFirstPlatformFoundation
 
-let logoutButtonClickedNotificationKey = "com.sample.RememberMeSwift.logoutButtonClickedNotificationKey"
-
 class ProtectedViewController: UIViewController {
     
     let defaults = NSUserDefaults.standardUserDefaults()
+    var errMsg: String!
+    var remainingAttempts: Int!
     
     @IBOutlet weak var helloUserLabel: UILabel!
     @IBOutlet weak var displayBalanceLabel: UILabel!
     
+    // viewWillAppear
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginRequired:", name: LoginRequiredNotificationKey, object: nil)
+    }
+    
+    // viewDidLoad
     override func viewDidLoad() {
-        NSLog("ProtectedViewController->viewDidLoad")
         super.viewDidLoad()
         if(defaults.stringForKey("displayName") != nil){
             self.helloUserLabel.text = "Hello, " + defaults.stringForKey("displayName")!
         }
         self.navigationItem.hidesBackButton = true;
     }
-
+    
+    // getBalanceClicked
     @IBAction func getBalanceClicked(sender: UIButton) {
-        NSLog("getBalanceClicked")
         let url = NSURL(string: "/adapters/ResourceAdapter/balance");
         let request = WLResourceRequest(URL: url, method: WLHttpMethodGet);
         request.sendWithCompletionHandler{ (WLResponse response, NSError error) -> Void in
@@ -42,11 +44,34 @@ class ProtectedViewController: UIViewController {
         }
     }
     
-    
+    // logoutClicked
     @IBAction func logoutClicked(sender: UIButton) {
-        NSLog("logoutClicked")
         navigationController?.popViewControllerAnimated(true)
         NSNotificationCenter.defaultCenter().postNotificationName(LogoutNotificationKey, object: nil)
     }
     
+    // loginRequired
+    func loginRequired(notification:NSNotification){
+        let userInfo = notification.userInfo as! Dictionary<String, AnyObject!>
+        self.errMsg =  userInfo["errorMsg"] as! String
+        self.remainingAttempts = userInfo["remainingAttempts"] as! Int
+        
+        self.performSegueWithIdentifier("TimedOutSegue", sender: nil)
+    }
+        
+    // prepareForSegue (for TimedOutSegue)
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
+    {
+        if (segue.identifier == "TimedOutSegue") {
+            if let destination = segue.destinationViewController as? LoginViewController{
+                destination.errorViaSegue = self.errMsg
+                destination.remainingAttemptsViaSegue = self.remainingAttempts
+            }
+        }
+    }
+    
+    // viewDidDisappear
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 }
