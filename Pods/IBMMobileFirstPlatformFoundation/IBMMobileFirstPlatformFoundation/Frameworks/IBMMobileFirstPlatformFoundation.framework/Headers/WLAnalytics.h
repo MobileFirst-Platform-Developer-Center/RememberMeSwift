@@ -86,8 +86,11 @@ FOUNDATION_EXPORT DeviceEvent const NETWORK;
 - (void) log:(NSString*)message withMetadata:(NSDictionary*)metadata;
 
 /**
- This method will set the user context of the app. This context change will be reported to Analytics.
- @param user the user name of the current user. This value will be hashed to provide anonimity.
+ Specify current application user.  If you want user-based analytics, you must use this method
+ call.  For example, use it when the user logs in, and call the unsetUserContext method when the
+ user logs out.  Or if your application supports user profiles, call this method when the user
+ profile changes.
+ @param user the user name of the current user.
  */
 - (void)setUserContext:(NSString *)user;
 
