@@ -30,7 +30,7 @@
             </objects>
             <point key="canvasLocation" x="1375" y="296"/>
         </scene>
-        <!--Remember me Swift-->
+        <!--RememberMeSwift-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="RememberMeSwift" customModuleProvider="target" sceneMemberID="viewController">
@@ -104,7 +104,7 @@
                             <constraint firstItem="0pa-cn-mSV" firstAttribute="trailing" secondItem="8bC-Xf-vdC" secondAttribute="trailingMargin" id="zZ3-sg-5gt"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Remember me Swift" id="tsz-uz-66O"/>
+                    <navigationItem key="navigationItem" title="RememberMeSwift" id="tsz-uz-66O"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="error" destination="d5E-qr-nLQ" id="wod-g1-e4w"/>
@@ -119,10 +119,10 @@
             </objects>
             <point key="canvasLocation" x="1770" y="296"/>
         </scene>
-        <!--Protected View Controller-->
+        <!--RememberMeSwift-->
         <scene sceneID="pJX-OT-pxQ">
             <objects>
-                <viewController id="utC-Kl-EMN" customClass="ProtectedViewController" customModule="RememberMeSwift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="RememberMeSwift" id="utC-Kl-EMN" customClass="ProtectedViewController" customModule="RememberMeSwift" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Bj8-hv-unL"/>
                         <viewControllerLayoutGuide type="bottom" id="Izm-Tr-jmg"/>
@@ -211,7 +211,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="LUh-UZ-cxr"/>
         <segue reference="jzb-PC-5k6"/>
+        <segue reference="LUh-UZ-cxr"/>
     </inferredMetricsTieBreakers>
 </document>
