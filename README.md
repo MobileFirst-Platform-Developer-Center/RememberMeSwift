@@ -9,10 +9,12 @@ https://mobilefirstplatform.ibmcloud.com/tutorials/en/foundation/8.0/authenticat
 ### Usage
 
 1. Use either Maven or MobileFirst Developer CLI to [build and deploy the available `ResourceAdapter` and `UserLogin` adapters](https://mobilefirstplatform.ibmcloud.com/tutorials/en/foundation/8.0/adapters/creating-adapters/).
-2. From a command-line window, navigate to the project's root folder and run the command: `mfpdev app register`.
-3. In the MobileFirst console, under **Applications** → **RememberMeSwift** → **Security** → **Map scope elements to security checks**, add a mapping from `accessRestricted` to `UserLogin`.
 
-`UserLogin` Security Check and `ResourceAdapter` adapters: https://github.com/MobileFirst-Platform-Developer-Center/SecurityCheckAdapters/tree/release80
+ The UserAuthentication Security Check adapter can be found in https://github.com/MobileFirst-Platform-Developer-Center/SecurityCheckAdapters/tree/release80.
+
+2. From a command-line window, navigate to the project's root folder and run the commands:
+ - `mfpdev app register` - to register the application.
+ - `mfpdev app push` - to map the `accessRestricted` scope to the `UserLogin` security check.
 
 ### Supported Levels
 IBM MobileFirst Platform Foundation 8.0
