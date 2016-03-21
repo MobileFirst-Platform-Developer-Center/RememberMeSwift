@@ -11,11 +11,8 @@ https://mobilefirstplatform.ibmcloud.com/tutorials/en/foundation/8.0/authenticat
 1. Use either Maven or MobileFirst Developer CLI to [build and deploy the available `ResourceAdapter` and `UserLogin` adapters](https://mobilefirstplatform.ibmcloud.com/tutorials/en/foundation/8.0/adapters/creating-adapters/).
 2. From a command-line window, navigate to the project's root folder and run the command: `mfpdev app register`.
 3. In the MobileFirst console, under **Applications** → **RememberMeSwift** → **Security** → **Map scope elements to security checks**, add a mapping from `accessRestricted` to `UserLogin`.
-4. Back in the command-line:
-    - Add a platform by running the `cordova platform add` command.
-    - Run the Cordova application by running the `cordova run` command.
 
-UserAuthentication Security Check adapter: https://github.com/MobileFirst-Platform-Developer-Center/SecurityCheckAdapters/tree/release80
+`UserLogin` Security Check and `ResourceAdapter` adapters: https://github.com/MobileFirst-Platform-Developer-Center/SecurityCheckAdapters/tree/release80
 
 ### Supported Levels
 IBM MobileFirst Platform Foundation 8.0
