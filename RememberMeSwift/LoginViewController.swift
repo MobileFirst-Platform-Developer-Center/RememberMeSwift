@@ -75,6 +75,15 @@ class LoginViewController: UIViewController {
     
     // cleanFieldsAndLabels (triggered by LoginFailure notification)
     func cleanFieldsAndLabels(){
+        let alert = UIAlertController(title: "Error",
+            message: errorMsg,
+            preferredStyle: .Alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
+        
+        dispatch_async(dispatch_get_main_queue()) {
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        
         self.username.text = ""
         self.password.text = ""
         self.remainingAttempts.text = ""

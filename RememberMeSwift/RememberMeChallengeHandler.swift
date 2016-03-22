@@ -59,8 +59,9 @@ class RememberMeChallengeHandler: WLChallengeHandler {
             if(error != nil){
                 NSLog("Logout failed" + String(error))
             }
+            self.isChallenged = false
         }
-        self.isChallenged = false
+        
     }
     
     // handleChallenge
@@ -91,17 +92,19 @@ class RememberMeChallengeHandler: WLChallengeHandler {
     // handleFailure
     override func handleFailure(failure: [NSObject : AnyObject]!) {
         self.isChallenged = false
-        if let errMsg = failure["failure"] as? String {
-            showError(errMsg)
+        if let _ = failure["failure"] as? String {
+            NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil, userInfo: ["errorMsg":failure["failure"]!])
         }
         else{
-            showError("Unknown error")
+            NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil, userInfo: ["errorMsg":"Unknown error"])
+            //showError("Unknown error")
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil)
+        //let errMsg = failure["failure"]
+        //NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil, userInfo: ["errorMsg":errMsg!])
     }
     
     // showError
-    func showError(errorMsg: String){
+    /*func showError(errorMsg: String){
         let alert = UIAlertController(title: "Error",
             message: errorMsg,
             preferredStyle: .Alert)
@@ -113,6 +116,6 @@ class RememberMeChallengeHandler: WLChallengeHandler {
                 animated: true,
                 completion: nil)
         }
-    }
+    }*/
 
 }
