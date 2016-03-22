@@ -41,9 +41,9 @@ class LoginViewController: UIViewController {
             self.error.text = self.errorViaSegue
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLabels:", name: LoginRequiredNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess", name: LoginSuccessNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginFailure:", name: LoginFailureNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateLabels(_:)), name: LoginRequiredNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginSuccess), name: LoginSuccessNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginFailure(_:)), name: LoginFailureNotificationKey, object: nil)
     }
     
     // viewDidLoad

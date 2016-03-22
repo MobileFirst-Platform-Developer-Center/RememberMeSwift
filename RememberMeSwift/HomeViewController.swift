@@ -25,8 +25,8 @@ class HomeViewController: UIViewController {
     
     // viewWillAppear
     override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginRequired:", name: LoginRequiredNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess", name: LoginSuccessNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginRequired(_:)), name: LoginRequiredNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginSuccess), name: LoginSuccessNotificationKey, object: nil)
     }
     
     // viewDidLoad
