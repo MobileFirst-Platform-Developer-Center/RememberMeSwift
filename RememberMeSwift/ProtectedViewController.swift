@@ -57,8 +57,9 @@ class ProtectedViewController: UIViewController {
     
     // logoutClicked
     @IBAction func logoutClicked(sender: UIButton) {
-        navigationController?.popViewControllerAnimated(true)
+        //navigationController?.popViewControllerAnimated(true)
         NSNotificationCenter.defaultCenter().postNotificationName(LogoutNotificationKey, object: nil)
+        self.performSegueWithIdentifier("LogoutSegue", sender: nil)
     }
     
     // loginRequired

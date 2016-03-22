@@ -97,25 +97,6 @@ class RememberMeChallengeHandler: WLChallengeHandler {
         }
         else{
             NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil, userInfo: ["errorMsg":"Unknown error"])
-            //showError("Unknown error")
         }
-        //let errMsg = failure["failure"]
-        //NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil, userInfo: ["errorMsg":errMsg!])
     }
-    
-    // showError
-    /*func showError(errorMsg: String){
-        let alert = UIAlertController(title: "Error",
-            message: errorMsg,
-            preferredStyle: .Alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
-        
-        dispatch_async(dispatch_get_main_queue()) {
-            let topController = UIApplication.sharedApplication().keyWindow!.rootViewController! as UIViewController
-            topController.presentViewController(alert,
-                animated: true,
-                completion: nil)
-        }
-    }*/
-
 }

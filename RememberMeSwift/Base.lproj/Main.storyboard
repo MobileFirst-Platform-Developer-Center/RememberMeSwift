@@ -184,6 +184,7 @@
                         <outlet property="displayBalanceLabel" destination="XoW-7A-XsL" id="QNQ-em-jPx"/>
                         <outlet property="helloUserLabel" destination="abe-LC-ZPI" id="5Bb-Xg-laC"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="TimedOutSegue" id="jzb-PC-5k6"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="LogoutSegue" id="NYu-QZ-Tgz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kMG-V1-1So" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -211,7 +212,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="xK9-Qp-eCy"/>
+        <segue reference="NYu-QZ-Tgz"/>
         <segue reference="LUh-UZ-cxr"/>
     </inferredMetricsTieBreakers>
 </document>

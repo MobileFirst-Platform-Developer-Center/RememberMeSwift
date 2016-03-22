@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateLabels:", name: LoginRequiredNotificationKey, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginSuccess", name: LoginSuccessNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "cleanFieldsAndLabels", name: LoginFailureNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "loginFailure:", name: LoginFailureNotificationKey, object: nil)
     }
     
     // viewDidLoad
@@ -73,10 +73,13 @@ class LoginViewController: UIViewController {
         self.performSegueWithIdentifier("gotoBalancePageSegue", sender: nil)
     }
     
-    // cleanFieldsAndLabels (triggered by LoginFailure notification)
-    func cleanFieldsAndLabels(){
+    // loginFailure (triggered by LoginFailure notification)
+    func loginFailure(notification:NSNotification){
+        let userInfo = notification.userInfo as! Dictionary<String, AnyObject!>
+        let errMsg = userInfo["errorMsg"] as! String
+        
         let alert = UIAlertController(title: "Error",
-            message: errorMsg,
+            message: errMsg,
             preferredStyle: .Alert)
         alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         
