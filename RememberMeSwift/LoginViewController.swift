@@ -18,48 +18,38 @@ import UIKit
 import IBMMobileFirstPlatformFoundation
 
 class LoginViewController: UIViewController {
-    
-    var errorViaSegue: String!
-    var remainingAttemptsViaSegue: Int!
-    var displayName: String!
-    
+        
     @IBOutlet weak var username: UITextField!
     @IBOutlet weak var password: UITextField!
     @IBOutlet weak var rememberMe: UISwitch!
     @IBOutlet weak var remainingAttempts: UILabel!
     @IBOutlet weak var error: UILabel!
     
-    // viewWillAppear
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        self.navigationItem.setHidesBackButton(true, animated:true);
         self.username.text = ""
         self.password.text = ""
         rememberMe.on = false
-        if(self.remainingAttemptsViaSegue != nil) {
-            self.remainingAttempts.text = "Remaining Attempts: " + String(self.remainingAttemptsViaSegue)
-        }
-        if(self.errorViaSegue != nil) {
-            self.error.text = self.errorViaSegue
-        }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(updateLabels(_:)), name: LoginRequiredNotificationKey, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginSuccess), name: LoginSuccessNotificationKey, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginFailure(_:)), name: LoginFailureNotificationKey, object: nil)
     }
     
-    // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.hidesBackButton = true;
     }
     
-    // login
     @IBAction func login(sender: UIButton) {
         if(self.username.text != "" && self.password.text != ""){
             NSNotificationCenter.defaultCenter().postNotificationName(LoginNotificationKey, object: nil, userInfo: ["username": username.text!, "password": password.text!, "rememberMe": rememberMe.on])
+        } else {
+            self.error.text = "Username and password are required"
         }
     }
     
-    // updateLabels (triggered by LoginRequired notification)
+    //(triggered by LoginRequired notification)
     func updateLabels(notification:NSNotification){
         let userInfo = notification.userInfo as! Dictionary<String, AnyObject!>
         let errMsg = userInfo["errorMsg"] as! String
@@ -68,12 +58,12 @@ class LoginViewController: UIViewController {
         self.remainingAttempts.text = "Remaining Attempts: " + String(remainingAttempts)
     }
     
-    // loginSuccess (triggered by LoginSuccess notification)
+    //(triggered by LoginSuccess notification)
     func loginSuccess(){
-        self.performSegueWithIdentifier("gotoBalancePageSegue", sender: nil)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
-    // loginFailure (triggered by LoginFailure notification)
+    //(triggered by LoginFailure notification)
     func loginFailure(notification:NSNotification){
         let userInfo = notification.userInfo as! Dictionary<String, AnyObject!>
         let errMsg = userInfo["errorMsg"] as! String
@@ -93,8 +83,9 @@ class LoginViewController: UIViewController {
         self.error.text = ""
     }
     
-    // viewDidDisappear
     override func viewDidDisappear(animated: Bool) {
+        print("LoginViewController: viewDidDisappear")
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
 }

@@ -22,6 +22,7 @@ let LoginSuccessNotificationKey = "com.sample.RememberMeSwift.LoginSuccessNotifi
 let LoginFailureNotificationKey = "com.sample.RememberMeSwift.LoginFailureNotificationKey"
 let LoginNotificationKey = "com.sample.RememberMeSwift.LoginNotificationKey"
 let LogoutNotificationKey = "com.sample.RememberMeSwift.LogoutNotificationKey"
+let ObtainAccessTokenSuccessKey = "com.sample.RememberMeSwift.ObtainAccessTokenSuccessKey"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -30,7 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        RememberMeChallengeHandler()
+        _ = RememberMeChallengeHandler()
         return true
     }
 

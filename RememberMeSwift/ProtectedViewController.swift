@@ -20,27 +20,43 @@ import IBMMobileFirstPlatformFoundation
 class ProtectedViewController: UIViewController {
     
     let defaults = NSUserDefaults.standardUserDefaults()
-    var errMsg: String!
-    var remainingAttempts: Int!
     
     @IBOutlet weak var helloUserLabel: UILabel!
     @IBOutlet weak var displayBalanceLabel: UILabel!
+    @IBOutlet weak var getBalanceBtn: UIButton!
+    @IBOutlet weak var logoutBtn: UIButton!
     
-    // viewWillAppear
-    override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProtectedViewController.loginRequired(_:)), name: LoginRequiredNotificationKey, object: nil)
-    }
     
-    // viewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        if(defaults.stringForKey("displayName") != nil){
-            self.helloUserLabel.text = "Hello, " + defaults.stringForKey("displayName")!
+        WLAuthorizationManager.sharedInstance().obtainAccessTokenForScope("UserLogin") { (token, error) -> Void in
+            if(error != nil){
+                print("obtainAccessToken failed! \(String(error))")
+            }
+            else{
+                print("obtainAccessToken success")
+            }
         }
-        self.navigationItem.hidesBackButton = true;
     }
     
-    // getBalanceClicked
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginRequired(_:)), name: LoginRequiredNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshUI), name: LoginSuccessNotificationKey, object: nil)
+        refreshUI()
+    }
+    
+    func refreshUI(){
+        print("refreshUI")
+        if let displayName = defaults.stringForKey("displayName"){
+            self.getBalanceBtn.hidden = false
+            self.logoutBtn.hidden = false
+            self.helloUserLabel.hidden = false
+            self.helloUserLabel.text = "Hello, " + displayName
+            self.displayBalanceLabel.text = ""
+        }
+    }
+    
     @IBAction func getBalanceClicked(sender: UIButton) {
         let url = NSURL(string: "/adapters/ResourceAdapter/balance");
         let request = WLResourceRequest(URL: url, method: WLHttpMethodGet);
@@ -55,34 +71,16 @@ class ProtectedViewController: UIViewController {
         }
     }
     
-    // logoutClicked
     @IBAction func logoutClicked(sender: UIButton) {
-        //navigationController?.popViewControllerAnimated(true)
         NSNotificationCenter.defaultCenter().postNotificationName(LogoutNotificationKey, object: nil)
-        self.performSegueWithIdentifier("LogoutSegue", sender: nil)
+        self.performSegueWithIdentifier("ShowLoginScreen", sender: self)
     }
     
-    // loginRequired
     func loginRequired(notification:NSNotification){
-        let userInfo = notification.userInfo as! Dictionary<String, AnyObject!>
-        self.errMsg =  userInfo["errorMsg"] as! String
-        self.remainingAttempts = userInfo["remainingAttempts"] as! Int
-        
-        self.performSegueWithIdentifier("TimedOutSegue", sender: nil)
-    }
-        
-    // prepareForSegue (for TimedOutSegue)
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
-    {
-        if (segue.identifier == "TimedOutSegue") {
-            if let destination = segue.destinationViewController as? LoginViewController{
-                destination.errorViaSegue = self.errMsg
-                destination.remainingAttemptsViaSegue = self.remainingAttempts
-            }
-        }
+        print("loginRequired")
+        self.performSegueWithIdentifier("ShowLoginScreen", sender: self)
     }
     
-    // viewDidDisappear
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
