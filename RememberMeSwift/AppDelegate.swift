@@ -22,7 +22,7 @@ let LoginSuccessNotificationKey = "com.sample.RememberMeSwift.LoginSuccessNotifi
 let LoginFailureNotificationKey = "com.sample.RememberMeSwift.LoginFailureNotificationKey"
 let LoginNotificationKey = "com.sample.RememberMeSwift.LoginNotificationKey"
 let LogoutNotificationKey = "com.sample.RememberMeSwift.LogoutNotificationKey"
-let ObtainAccessTokenSuccessKey = "com.sample.RememberMeSwift.ObtainAccessTokenSuccessKey"
+let logoutSuccessNotificationKey = "com.sample.RememberMeSwift.logoutSuccessNotificationKey"
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

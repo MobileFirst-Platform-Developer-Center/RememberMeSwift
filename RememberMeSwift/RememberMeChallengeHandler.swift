@@ -87,7 +87,6 @@ class RememberMeChallengeHandler: WLChallengeHandler {
                     print("Login failed \(String(error))")
                 } else {
                     print("\(self.challengeHandlerName): preemptiveLogin success")
-                    NSNotificationCenter.defaultCenter().postNotificationName(ObtainAccessTokenSuccessKey, object: nil, userInfo: nil)
                 }
             }
         }
@@ -108,6 +107,7 @@ class RememberMeChallengeHandler: WLChallengeHandler {
             }
             print("\(self.challengeHandlerName): logout success")
             self.isChallenged = false
+            NSNotificationCenter.defaultCenter().postNotificationName(logoutSuccessNotificationKey, object: nil)
         }
         
     }

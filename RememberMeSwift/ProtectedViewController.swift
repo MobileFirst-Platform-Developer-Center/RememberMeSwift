@@ -41,9 +41,10 @@ class ProtectedViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginRequired(_:)), name: LoginRequiredNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShowLoginScreen(_:)), name: LoginRequiredNotificationKey, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshUI), name: LoginSuccessNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginRequired(_:)), name: LoginFailureNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShowLoginScreen(_:)), name: LoginFailureNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShowLoginScreen(_:)), name: logoutSuccessNotificationKey, object: nil)
         refreshUI()
     }
     
@@ -74,11 +75,10 @@ class ProtectedViewController: UIViewController {
     
     @IBAction func logoutClicked(sender: UIButton) {
         NSNotificationCenter.defaultCenter().postNotificationName(LogoutNotificationKey, object: nil)
-        self.performSegueWithIdentifier("ShowLoginScreen", sender: self)
     }
     
-    func loginRequired(notification:NSNotification){
-        print("loginRequired")
+    func ShowLoginScreen(notification:NSNotification){
+        print("ShowLoginScreen")
         self.performSegueWithIdentifier("ShowLoginScreen", sender: self)
     }
     
