@@ -43,6 +43,7 @@ class ProtectedViewController: UIViewController {
         super.viewWillAppear(true)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginRequired(_:)), name: LoginRequiredNotificationKey, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshUI), name: LoginSuccessNotificationKey, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(loginRequired(_:)), name: LoginFailureNotificationKey, object: nil)
         refreshUI()
     }
     
