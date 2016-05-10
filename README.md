@@ -1,7 +1,7 @@
 IBM MobileFirst Platform Foundation
 ===
 ## RememberMeSwift
-A sample application demonstrating use obtainAccessToken and login APIs.
+A sample application demonstrating Remember Me functionality.
 
 ### Tutorials
 https://mobilefirstplatform.ibmcloud.com/tutorials/en/foundation/8.0/authentication-and-security/user-authentication/
