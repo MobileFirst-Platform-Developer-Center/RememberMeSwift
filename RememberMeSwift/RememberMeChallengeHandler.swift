@@ -17,11 +17,12 @@
 import UIKit
 import IBMMobileFirstPlatformFoundation
 
-class RememberMeChallengeHandler: WLChallengeHandler {
+class RememberMeChallengeHandler: SecurityCheckChallengeHandler {
     
     var isChallenged: Bool
     let defaults = NSUserDefaults.standardUserDefaults()
     let challengeHandlerName = "RememberMeChallengeHandler"
+    let securityCheckName = "UserLogin"
     
     override init(){
         self.isChallenged = false
@@ -82,7 +83,7 @@ class RememberMeChallengeHandler: WLChallengeHandler {
         
         // If challenged use submitChallengeAnswer API, else use login API
         if(!self.isChallenged){
-            WLAuthorizationManager.sharedInstance().login(self.securityCheck, withCredentials: ["username": username, "password": password, "rememberMe": rememberMe]) { (error) -> Void in
+            WLAuthorizationManager.sharedInstance().login(self.securityCheckName, withCredentials: ["username": username, "password": password, "rememberMe": rememberMe]) { (error) -> Void in
                 if(error != nil){
                     print("Login failed \(String(error))")
                 } else {
@@ -100,7 +101,7 @@ class RememberMeChallengeHandler: WLChallengeHandler {
     func logout(){
         print("\(self.challengeHandlerName): logout")
         self.defaults.removeObjectForKey("displayName")
-        WLAuthorizationManager.sharedInstance().logout(self.securityCheck){
+        WLAuthorizationManager.sharedInstance().logout(self.securityCheckName){
             (error) -> Void in
             if(error != nil){
                 print("Logout failed \(String(error))")
