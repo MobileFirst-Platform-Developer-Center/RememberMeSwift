@@ -20,7 +20,7 @@ import IBMMobileFirstPlatformFoundation
 class RememberMeChallengeHandler: SecurityCheckChallengeHandler {
     
     var isChallenged: Bool
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     let challengeHandlerName = "RememberMeChallengeHandler"
     let securityCheckName = "UserLogin"
     
@@ -29,14 +29,14 @@ class RememberMeChallengeHandler: SecurityCheckChallengeHandler {
         super.init(securityCheck: "UserLogin")
         WLClient.sharedInstance().registerChallengeHandler(self)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(login(_:)), name: LoginNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(logout), name: LogoutNotificationKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(login(_:)), name: NSNotification.Name(rawValue: LoginNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(logout), name: NSNotification.Name(rawValue: LogoutNotificationKey), object: nil)
     }
     
-    override func handleChallenge(challenge: [NSObject : AnyObject]!) {
+    override func handleChallenge(_ challenge: [AnyHashable: Any]!) {
         print("\(self.challengeHandlerName): handleChallenge - \(challenge)")
-        if (defaults.stringForKey("displayName") != nil){
-            defaults.removeObjectForKey("displayName")
+        if (defaults.string(forKey: "displayName") != nil){
+            defaults.removeObject(forKey: "displayName")
         }
         self.isChallenged = true
         var errMsg: String!
@@ -48,68 +48,78 @@ class RememberMeChallengeHandler: SecurityCheckChallengeHandler {
         }
         let remainingAttempts = challenge["remainingAttempts"]
         
-        NSNotificationCenter.defaultCenter().postNotificationName(LoginRequiredNotificationKey, object: nil, userInfo: ["errorMsg":errMsg!, "remainingAttempts":remainingAttempts!])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: LoginRequiredNotificationKey), object: nil, userInfo: ["errorMsg":errMsg!, "remainingAttempts":remainingAttempts!])
         
     }
     
-    override func handleSuccess(success: [NSObject : AnyObject]!) {
+    override func handleSuccess(_ success: [AnyHashable: Any]!) {
         print("\(self.challengeHandlerName): handleSuccess - \(success)")
         self.isChallenged = false
-        self.defaults.setObject(success["user"]!["displayName"]! as! String, forKey: "displayName")
-        NSNotificationCenter.defaultCenter().postNotificationName(LoginSuccessNotificationKey, object: nil)
+        let user = success["user"]  as! [String:Any]
+        let displayName = user["displayName"] as! String
+        self.defaults.set(displayName , forKey: "displayName")
+        NotificationCenter.default.post(name: Notification.Name(rawValue: LoginSuccessNotificationKey), object: nil)
     }
     
-    override func handleFailure(failure: [NSObject : AnyObject]!) {
+    override func handleFailure(_ failure: [AnyHashable: Any]!) {
         print("\(self.challengeHandlerName): handleFailure - \(failure)")
-        if (defaults.stringForKey("displayName") != nil){
-            defaults.removeObjectForKey("displayName")
+        if (defaults.string(forKey: "displayName") != nil){
+            defaults.removeObject(forKey: "displayName")
         }
         self.isChallenged = false
         if let _ = failure["failure"] as? String {
-            NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil, userInfo: ["errorMsg":failure["failure"]!])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: LoginFailureNotificationKey), object: nil, userInfo: ["errorMsg":failure["failure"]!])
         }
         else{
-            NSNotificationCenter.defaultCenter().postNotificationName(LoginFailureNotificationKey, object: nil, userInfo: ["errorMsg":"Unknown error"])
+            NotificationCenter.default.post(name: Notification.Name(rawValue: LoginFailureNotificationKey), object: nil, userInfo: ["errorMsg":"Unknown error"])
         }
     }
     
     // (Triggered by Login Notification)
-    func login(notification:NSNotification){
+    func login(_ notification:Notification){
         print("\(self.challengeHandlerName): login")
-        let userInfo = notification.userInfo as! Dictionary<String, AnyObject!>
+        let userInfo = notification.userInfo as! Dictionary<String, AnyObject?>
         let username = userInfo["username"] as! String
         let password = userInfo["password"] as! String
         let rememberMe = userInfo["rememberMe"] as! Bool
         
         // If challenged use submitChallengeAnswer API, else use login API
         if(!self.isChallenged){
+            if(rememberMe==false)
+            {
+                print("FALSE REMEMBER MEEE")
+            }
             WLAuthorizationManager.sharedInstance().login(self.securityCheckName, withCredentials: ["username": username, "password": password, "rememberMe": rememberMe]) { (error) -> Void in
                 if(error != nil){
-                    print("Login failed \(String(error))")
+                    print("Login failed \(String(describing: error))")
                 } else {
+                    print("I am remebered \(rememberMe)")
                     print("\(self.challengeHandlerName): preemptiveLogin success")
                 }
             }
         }
         else{
             print("submitChallengeAnswer")
+            print(rememberMe)
             self.submitChallengeAnswer(["username": username, "password": password, "rememberMe": rememberMe])
         }
-    }
-    
-    // (Triggered by Logout Notification)
+    } 
+        // (Triggered by Logout Notification)
     func logout(){
         print("\(self.challengeHandlerName): logout")
-        self.defaults.removeObjectForKey("displayName")
+        self.defaults.removeObject(forKey: "displayName")
         WLAuthorizationManager.sharedInstance().logout(self.securityCheckName){
             (error) -> Void in
             if(error != nil){
-                print("Logout failed \(String(error))")
+                
+                print("Logout failed \(String(describing: error))")
             }
             print("\(self.challengeHandlerName): logout success")
             self.isChallenged = false
-            NSNotificationCenter.defaultCenter().postNotificationName(logoutSuccessNotificationKey, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: logoutSuccessNotificationKey), object: nil)
         }
         
     }
 }
+
+

@@ -19,7 +19,7 @@ import IBMMobileFirstPlatformFoundation
 
 class ProtectedViewController: UIViewController {
     
-    let defaults = NSUserDefaults.standardUserDefaults()
+    let defaults = UserDefaults.standard
     
     @IBOutlet weak var helloUserLabel: UILabel!
     @IBOutlet weak var displayBalanceLabel: UILabel!
@@ -29,9 +29,9 @@ class ProtectedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        WLAuthorizationManager.sharedInstance().obtainAccessTokenForScope("UserLogin") { (token, error) -> Void in
+        WLAuthorizationManager.sharedInstance().obtainAccessToken(forScope: "UserLogin") { (token, error) -> Void in
             if(error != nil){
-                print("obtainAccessToken failed! \(String(error))")
+                print("obtainAccessToken failed! \(String(describing: error))")
             }
             else{
                 print("obtainAccessToken success")
@@ -39,50 +39,55 @@ class ProtectedViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showLoginScreen(_:)), name: LoginRequiredNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(refreshUI), name: LoginSuccessNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showLoginScreen(_:)), name: LoginFailureNotificationKey, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(showLoginScreen(_:)), name: logoutSuccessNotificationKey, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showLoginScreen(_:)), name: NSNotification.Name(rawValue: LoginRequiredNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshUI), name: NSNotification.Name(rawValue: LoginSuccessNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showLoginScreen(_:)), name: NSNotification.Name(rawValue: LoginFailureNotificationKey), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showLoginScreen(_:)), name: NSNotification.Name(rawValue: logoutSuccessNotificationKey), object: nil)
+     
+  //        NotificationCenter.default.addObserver(self, selector: #selector(showLoginScreen(_:)), name: NSNotification.Name(rawValue: RemembermeFalseNotification), object: nil)
         refreshUI()
     }
     
     func refreshUI(){
         print("refreshUI")
-        if let displayName = defaults.stringForKey("displayName"){
-            self.getBalanceBtn.hidden = false
-            self.logoutBtn.hidden = false
-            self.helloUserLabel.hidden = false
+        
+       
+        if let displayName = defaults.string(forKey: "displayName"){
+            self.getBalanceBtn.isHidden = false
+            self.logoutBtn.isHidden = false
+            self.helloUserLabel.isHidden = false
             self.helloUserLabel.text = "Hello, " + displayName
             self.displayBalanceLabel.text = ""
         }
     }
     
-    @IBAction func getBalanceClicked(sender: UIButton) {
-        let url = NSURL(string: "/adapters/ResourceAdapter/balance");
-        let request = WLResourceRequest(URL: url, method: WLHttpMethodGet);
-        request.sendWithCompletionHandler{ (response, error) -> Void in
+    @IBAction func getBalanceClicked(_ sender: UIButton) {
+        let url = URL(string: "/adapters/ResourceAdapter/balance");
+        let request = WLResourceRequest(url: url, method: WLHttpMethodGet);
+        request?.send{ (response, error) -> Void in
             if(error != nil){
-                NSLog("Failed to get balance. error: " + String(error))
+                NSLog("Failed to get balance. error: " + String(describing: error))
                 self.displayBalanceLabel.text = "Failed to get balance...";
             }
             else if(response != nil){
-                self.displayBalanceLabel.text = "Balance: " + response.responseText;
+                self.displayBalanceLabel.text = "Balance: " + (response?.responseText)!;
             }
         }
     }
     
-    @IBAction func logoutClicked(sender: UIButton) {
-        NSNotificationCenter.defaultCenter().postNotificationName(LogoutNotificationKey, object: nil)
+    @IBAction func logoutClicked(_ sender: UIButton) {
+        NotificationCenter.default.post(name: Notification.Name(rawValue: LogoutNotificationKey), object: nil)
     }
     
-    func showLoginScreen(notification:NSNotification){
+    func showLoginScreen(_ notification:Notification){
+        
         print("showLoginScreen")
-        self.performSegueWithIdentifier("ShowLoginScreen", sender: self)
+        self.performSegue(withIdentifier: "ShowLoginScreen", sender: self)
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func viewDidDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self)
     }
 }
